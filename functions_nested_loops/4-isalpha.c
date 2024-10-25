@@ -7,9 +7,9 @@
  * Return: 1 if c is a letter (either uppercase or lowercase),
  *         0 otherwise.
  *
- * Description: This function checks if the given character 
- * (provided as an integer) is within the ASCII range for 
- * alphabetic characters. It returns 1 if the character is 
+ * Description: This function checks if the given character
+ * (provided as an integer) is within the ASCII range for
+ * alphabetic characters. It returns 1 if the character is
  * either an uppercase or lowercase letter, and 0 if it is not.
  */
 int _isalpha(int c)
