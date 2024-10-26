@@ -19,7 +19,7 @@ if (product < 10)
 {
 if (y != 0)
 {
-_putchar(' '); 
+_putchar(' ');
 }
 _putchar(product + '0');
 }
