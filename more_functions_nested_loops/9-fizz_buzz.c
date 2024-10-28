@@ -37,7 +37,9 @@ printf("\n");
 
 
 /**
- * main - to run the function
+ * main - entry point to run the fizz_buzz function.
+ *
+ * Return: 0 on success.
  */
 int main(void)
 {
