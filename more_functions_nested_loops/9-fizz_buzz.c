@@ -35,6 +35,10 @@ printf(" ");
 printf("\n");
 }
 
+
+/**
+ * main - to run the function 
+ */
 int main(void)
 {
 fizz_buzz();
