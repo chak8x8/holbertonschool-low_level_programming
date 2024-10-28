@@ -37,7 +37,7 @@ printf("\n");
 
 
 /**
- * main - to run the function 
+ * main - to run the function
  */
 int main(void)
 {
