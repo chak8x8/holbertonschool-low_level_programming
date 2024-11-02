@@ -10,12 +10,12 @@ int _atoi(char *s)
 {
 int i;
 int result = 0;
-int sign = 0;
+int sign = 1;
 for (i = 0; s[i] != '\0'; i++)
 {
 if (s[i] == '-')
 {
-sign++;
+sign = -sign;
 }
 else if (s[i] >= '0' && s[i] <= '9')
 {
@@ -32,10 +32,6 @@ continue;
 }
 }
 
-if (sign % 2 != 0)
-{
-result = -result;
-}
 
-return (result);
+return (sign * result);
 }
