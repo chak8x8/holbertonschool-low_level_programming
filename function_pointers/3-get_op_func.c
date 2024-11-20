@@ -14,8 +14,9 @@ op_t ops[] = {
 
 int i = 0;
 int result = 0;
+int ops_size = sizeof(ops) / sizeof(ops[0]);
 
-while (i < 5)
+while (i < ops_size)
 {
 result = strcmp(s, ops[i].op);
 if (result == 0)
