@@ -1,8 +1,10 @@
 #include "3-calc.h"
+#include <stdlib.h>
 #include <string.h>
 
 int (*get_op_func(char *s))(int, int)
 {
+
 op_t ops[] = {
 {"+", op_add},
 {"-", op_sub},
@@ -13,17 +15,22 @@ op_t ops[] = {
 };
 
 int i = 0;
-int result = 0;
-int ops_size = sizeof(ops) / sizeof(ops[0]);
 
-while (i < ops_size)
+
+if (s == NULL || *s == '\0')
 {
-result = strcmp(s, ops[i].op);
-if (result == 0)
+return NULL;
+}
+
+
+while (ops[i].op != NULL)
 {
-return (ops[i].f);
+if (strcmp(s, ops[i].op) == 0)
+{
+return ops[i].f;
 }
 i++;
 }
-return (NULL);
+
+return NULL;
 }
