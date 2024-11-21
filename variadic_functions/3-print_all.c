@@ -6,9 +6,10 @@
  * @args: List of arguments.
  * @separator: Separator to print between values.
  */
-void print_char(va_list args, char *separator)
+void print_char(va_list args)
 {
-printf("%s%c", separator, (char) va_arg(args, int));
+char c = va_arg(args, int);
+printf("%c", c);
 }
 
 /**
@@ -16,9 +17,10 @@ printf("%s%c", separator, (char) va_arg(args, int));
  * @args: List of arguments.
  * @separator: Separator to print between values.
  */
-void print_int(va_list args, char *separator)
+void print_int(va_list args)
 {
-printf("%s%d", separator, va_arg(args, int));
+int n = va_arg(args, int);
+printf("%d", n);
 }
 
 /**
@@ -26,9 +28,10 @@ printf("%s%d", separator, va_arg(args, int));
  * @args: List of arguments.
  * @separator: Separator to print between values.
  */
-void print_float(va_list args, char *separator)
+void print_float(va_list args)
 {
-printf("%s%f", separator, va_arg(args, double));
+double f = va_arg(args, double);
+printf("%f", f);
 }
 
 /**
@@ -36,16 +39,17 @@ printf("%s%f", separator, va_arg(args, double));
  * @args: List of arguments.
  * @separator: Separator to print between values.
  */
-void print_string(va_list args, char *separator)
+void print_string(va_list args)
 {
-char *str;
-
-str = va_arg(args, char *);
-if (str == NULL)
+char *s = va_arg(args, char*);
+if (s == NULL)
 {
-str = "(nil)";
+printf("(nil)");
 }
-printf("%s%s", separator, str);
+else
+{
+printf("%s", s);
+}
 }
 
 /**
@@ -56,32 +60,36 @@ void print_all(const char * const format, ...)
 {
 va_list args;
 unsigned int i = 0;
-char *separator = "";
+int printed = 0;
 
 va_start(args, format);
 
 while (format && format[i] != '\0')
 {
-if (i > 0)
+if (printed)
 {
-separator = ", ";
-}        
+printf(", ");
+}
 switch (format[i])
 {
 case 'c':
-print_char(args, separator);
+print_char(args);
+printed = 1;
 break;
 
 case 'i':
-print_int(args, separator);
+print_int(args);
+printed = 1;
 break;
 
 case 'f':
-print_float(args, separator);
+print_float(args);
+printed = 1;
 break;
 
 case 's':
-print_string(args, separator);
+print_string(args);
+printed = 1;
 break;
 
 default:
