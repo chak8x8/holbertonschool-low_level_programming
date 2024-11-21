@@ -52,21 +52,15 @@ printf("%s%s", separator, str);
  * print_all - Prints anything based on the format.
  * @format: Format string containing the types of arguments passed.
  */
-
 void print_all(const char * const format, ...)
 {
 va_list args;
-int i;
-char *separator = "";
-
-if (format == NULL)
-{
-return;
-}
-
+unsigned int i = 0;
+char *separator = ", ";
+    
 va_start(args, format);
 
-while (format[i] != '\0')
+while (format && format[i] != '\0')
 {
 switch (format[i])
 {
@@ -87,12 +81,11 @@ print_string(args, separator);
 break;
 
 default:
-i++;
-continue;
+break;
 }
-separator = ", ";
 i++;
 }
+
 va_end(args);
 printf("\n");
 }
