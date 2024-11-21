@@ -64,7 +64,7 @@ while (format && format[i] != '\0')
 {
 if (i > 0)
 {
-separator = ", "
+separator = ", ";
 }
 switch (format[i])
 {
