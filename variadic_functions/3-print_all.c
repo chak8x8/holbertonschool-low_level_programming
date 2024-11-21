@@ -57,7 +57,7 @@ void print_all(const char * const format, ...)
 va_list args;
 unsigned int i = 0;
 char *separator = "";
-    
+
 va_start(args, format);
 
 while (format && format[i] != '\0')
@@ -65,7 +65,7 @@ while (format && format[i] != '\0')
 if (i > 0)
 {
 separator = ", ";
-}
+}        
 switch (format[i])
 {
 case 'c':
