@@ -8,9 +8,7 @@
  */
 void print_char(va_list args)
 {
-char c;
-c = va_arg(args, int);
-printf("%c", c);
+printf("%c", va_arg(args, int));
 }
 
 /**
@@ -19,9 +17,7 @@ printf("%c", c);
  */
 void print_int(va_list args)
 {
-int i;
-i = va_arg(args, int);
-printf("%d", i);
+printf("%d", va_arg(args, int));
 }
 
 /**
@@ -30,9 +26,7 @@ printf("%d", i);
  */
 void print_float(va_list args)
 {
-float f;
-f = va_arg(args, double);
-printf("%f", f);
+printf("%f", va_arg(args, double));
 }
 
 /**
@@ -41,90 +35,46 @@ printf("%f", f);
  */
 void print_string(va_list args)
 {
-char *str;
-str = va_arg(args, char *);
-
+char *str = va_arg(args, char *);
 if (str == NULL)
 {
 printf("(nil)");
 return;
 }
-
 printf("%s", str);
-
 }
 
 /**
- * handle_case - Handles printing based on format specifier
- * @format: Format specifier (c, i, f, s)
- * @args: Argument list
- * @separator: Pointer to the separator string to manage formatting
- *
- * Description: Depending on the format specifier provided,
- * this function retrieves the corresponding argument from the
- * variadic argument list and prints it, updating the separator
- * string as needed.
- */
-void handle_case(char format, va_list args, char **separator)
-{
-switch (format)
-{
-case 'c':
-printf("%s", *separator);
-print_char(args);
-*separator = ", ";
-break;
-
-case 'i':
-printf("%s", *separator);
-print_int(args);
-*separator = ", ";
-break;
-
-case 'f':
-printf("%s", *separator);
-print_float(args);
-*separator = ", ";
-break;
-
-case 's':
-printf("%s", *separator);
-print_string(args);
-*separator = ", ";
-break;
-
-default:
-break;
-}
-}
-
-/**
- * print_all - Prints arguments based on a format string
- * @format: A list of types of arguments passed to the function
- *
- * Description: This function prints arguments of various types
- * (char, int, float, string) specified in the format string.
- * If the format string is NULL, it prints a new line. The function
- * uses a helper function to handle individual format cases and
- * manages separators between the arguments.
+ * print_all - Prints anything based on the format.
+ * @format: Format string containing the types of arguments passed.
  */
 void print_all(const char * const format, ...)
 {
-unsigned int j = 0;
-char *separator = "";
 va_list args;
-
-if (format == NULL)
-{
-printf("\n");
-return;
-}
-
+unsigned int i = 0, j;
+char *separator = "";
+printer_t func[] = {
+{"c", print_char},
+{"i", print_int},
+{"f", print_float},
+{"s", print_string}
+};
 va_start(args, format);
-while (format[j] != '\0')
+while (format && format[i])
 {
-handle_case(format[j], args, &separator);
+j = 0;
+while (j < 4)
+{
+if (format[i] == *(func[j].symbol))
+{
+printf("%s", separator);
+func[j].print(args);
+separator = ", ";
+break;
+}
 j++;
+}
+i++;
 }
 va_end(args);
 printf("\n");
