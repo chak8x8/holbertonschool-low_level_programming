@@ -55,8 +55,58 @@ printf("%s", str);
 }
 
 /**
- * print_all - Prints anything based on the format.
- * @format: Format string containing the types of arguments passed.
+ * handle_case - Handles printing based on format specifier
+ * @format: Format specifier (c, i, f, s)
+ * @args: Argument list
+ * @separator: Pointer to the separator string to manage formatting
+ *
+ * Description: Depending on the format specifier provided,
+ * this function retrieves the corresponding argument from the
+ * variadic argument list and prints it, updating the separator
+ * string as needed.
+ */
+void handle_case(char format, va_list args, char **separator)
+{
+switch (format)
+{
+case 'c':
+printf("%s", *separator);
+print_char(args);
+*separator = ", ";
+break;
+
+case 'i':
+printf("%s", *separator);
+print_int(args);
+*separator = ", ";
+break;
+
+case 'f':
+printf("%s", *separator);
+print_float(args);
+*separator = ", ";
+break;
+
+case 's':
+printf("%s", *separator);
+print_string(args);
+*separator = ", ";
+break;
+
+default:
+break;
+}
+}
+
+/**
+ * print_all - Prints arguments based on a format string
+ * @format: A list of types of arguments passed to the function
+ *
+ * Description: This function prints arguments of various types
+ * (char, int, float, string) specified in the format string.
+ * If the format string is NULL, it prints a new line. The function
+ * uses a helper function to handle individual format cases and
+ * manages separators between the arguments.
  */
 void print_all(const char * const format, ...)
 {
@@ -64,47 +114,19 @@ unsigned int j = 0;
 char *separator = "";
 va_list args;
 
-va_start(args, format);
-
 if (format == NULL)
 {
 printf("\n");
 return;
 }
 
-while (format != NULL && format[j] != '\0')
+va_start(args, format);
+while (format[j] != '\0')
 {
-
-printf("%s", separator);
-
-switch(format[j])
-{
-case 'c':
-print_char(args);
-separator = ", ";
-break;
-
-case 'i':
-print_int(args);
-separator = ", ";
-break;
-
-case 'f':
-print_float(args);
-separator = ", ";
-break;
-
-case 's':
-print_string(args);
-separator = ", ";
-break;
-
-default:
-separator = "";
-break;
-}
+handle_case(format[j], args, &separator);
 j++;
 }
 va_end(args);
 printf("\n");
 }
+
