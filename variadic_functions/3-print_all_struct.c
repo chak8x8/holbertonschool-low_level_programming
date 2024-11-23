@@ -8,9 +8,7 @@
  */
 void print_char(va_list args)
 {
-char c;
-c = va_arg(args, int);
-printf("%c", c);
+printf("%c", va_arg(args, int));
 }
 
 /**
@@ -19,9 +17,7 @@ printf("%c", c);
  */
 void print_int(va_list args)
 {
-int i;
-i = va_arg(args, int);
-printf("%d", i);
+printf("%d", va_arg(args, int));
 }
 
 /**
@@ -30,9 +26,7 @@ printf("%d", i);
  */
 void print_float(va_list args)
 {
-float f;
-f = va_arg(args, double);
-printf("%f", f);
+printf("%f", va_arg(args, double));
 }
 
 /**
@@ -41,18 +35,13 @@ printf("%f", f);
  */
 void print_string(va_list args)
 {
-char *str;
-str = va_arg(args, char *);
-
+char *str = va_arg(args, char *);
 if (str == NULL)
 {
 printf("(nil)");
 return;
 }
-else
-{
 printf("%s", str);
-}
 }
 
 /**
@@ -61,51 +50,33 @@ printf("%s", str);
  */
 void print_all(const char * const format, ...)
 {
-unsigned int j = 0;
-char *separator = "";
 va_list args;
-int format_length = 0;
-
+unsigned int i = 0, j;
+char *separator = "";
+printer_t func[] = {
+{"c", print_char},
+{"i", print_int},
+{"f", print_float},
+{"s", print_string}
+};
 va_start(args, format);
-
-while (format[format_length] != '\0')
+while (format && format[i])
 {
-format_length++;
-}
-
-while (format != NULL && format[j] != '\0')
+j = 0;
+while (j < 4)
 {
-
+if (format[i] == *(func[j].symbol))
+{
 printf("%s", separator);
-
-switch(format[j])
-{
-case 'c':
-print_char(args);
+func[j].print(args);
 separator = ", ";
-break;
-
-case 'i':
-print_int(args);
-separator = ", ";
-break;
-
-case 'f':
-print_float(args);
-separator = ", ";
-break;
-
-case 's':
-print_string(args);
-separator = ", ";
-break;
-
-default:
-separator = "";
 break;
 }
 j++;
 }
+i++;
+}
 va_end(args);
 printf("\n");
 }
+
