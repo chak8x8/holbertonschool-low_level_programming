@@ -63,13 +63,13 @@ void print_all(const char * const format, ...)
 unsigned int j = 0;
 char *separator = "";
 va_list args;
-int format_length = 0;
 
 va_start(args, format);
 
-while (format[format_length] != '\0')
+if (format == NULL)
 {
-format_length++;
+printf("\n");
+return;
 }
 
 while (format != NULL && format[j] != '\0')
