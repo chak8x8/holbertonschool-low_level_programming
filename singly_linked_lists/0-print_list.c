@@ -19,7 +19,7 @@ while (node != NULL)
 	if ((*node).str == NULL)
 	{
 		printf("[0] (nil)\n");
-	}	
+	}
 	else
 	{
 		printf("[%u] %s\n", node->len, node->str);
@@ -27,5 +27,5 @@ while (node != NULL)
 	count++;
 	node = node->next;
 }
-return count;
+return (count);
 }
