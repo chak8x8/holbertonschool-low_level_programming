@@ -7,10 +7,10 @@
  * @head: A pointer to the pointer to the first node of the list.
  * @str: The string to be duplicated and stored in the new node.
  *
- * Description: This function creates a new node, duplicates the string 
- * @str, and adds the node at the end of the list. The new node's 
- * `next` pointer will be set to `NULL`. If memory allocation fails, 
- * the function returns `NULL`. If the node is successfully added, 
+ * Description: This function creates a new node, duplicates the string
+ * @str, and adds the node at the end of the list. The new node's
+ * `next` pointer will be set to `NULL`. If memory allocation fails,
+ * the function returns `NULL`. If the node is successfully added,
  * the function returns the address of the new node.
  *
  * Return: The address of the new element, or NULL if it failed.
@@ -25,9 +25,7 @@ list_t *add_node_end(list_t **head, const char *str)
 
 	node = malloc(sizeof(list_t));
 	if (node == NULL)
-	{
 		return (NULL);
-	}
 
 	if (s == NULL)
 	{
@@ -35,7 +33,7 @@ list_t *add_node_end(list_t **head, const char *str)
 		return (NULL);
 	}
 
-	while(*temp != '\0')
+	while (*temp != '\0')
 	{
 		length++;
 		temp++;
