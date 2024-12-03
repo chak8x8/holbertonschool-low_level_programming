@@ -18,7 +18,7 @@
 list_t *add_node_end(list_t **head, const char *str)
 {
 	list_t *node;
-	char *s = strdup(str);;
+	char *s = strdup(str);
 	const char *temp = str;
 	unsigned int length = 0;
 
