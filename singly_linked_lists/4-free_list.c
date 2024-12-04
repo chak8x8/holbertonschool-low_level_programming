@@ -5,7 +5,7 @@
  * free_list - Frees a list_t list.
  * @head: Pointer to the first node of the list.
  *
- * Description: 
+ * Description:
  * This function iterates through a linked list of type list_t,
  * freeing the memory allocated for each node, including the string
  * data stored in the node. It ensures that all dynamically
