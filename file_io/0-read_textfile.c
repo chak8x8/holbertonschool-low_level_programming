@@ -13,8 +13,8 @@ ssize_t read_textfile(const char *filename, size_t letters)
 {
 	int fd = -1;
 	char *buffer;
-	size_t bytes_read;
-	size_t bytes_written;
+	ssize_t bytes_read;
+	ssize_t bytes_written;
 
 	/* Step 1: Validate input */
 	if (filename == NULL)
@@ -23,7 +23,7 @@ ssize_t read_textfile(const char *filename, size_t letters)
 	}
 
 	/* Step 2: Open the file */
-	fd = open(filename, 0_RDONLY);
+	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
 		return (0);
