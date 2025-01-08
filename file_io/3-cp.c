@@ -17,7 +17,6 @@ int open_file_for_read(const char *filename)
 	if (fd == -1)
 		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n",
 			filename);
-
 	return (fd);
 }
 
@@ -38,7 +37,6 @@ int open_file_for_write(const char *filename)
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 	if (fd == -1)
 		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", filename);
-
 	return (fd);
 }
 
@@ -84,6 +82,7 @@ void copy_content(int file_from, int file_to,
 			exit(99);
 		}
 	}
+
 	if (bytes_read == -1)
 	{
 		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n",
