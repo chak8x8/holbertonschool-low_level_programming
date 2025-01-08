@@ -2,12 +2,9 @@
 
 /**
  * open_file_for_read - Opens a file in read-only mode.
- * @filename: The name of the file to open.
+ * @filename: The file to open.
  *
- * Description: If the file cannot be opened, prints an error message
- * and returns -1 (the caller decides what to do next).
- *
- * Return: File descriptor on success, or -1 on failure.
+ * Return: File descriptor on success, -1 on failure.
  */
 int open_file_for_read(const char *filename)
 {
@@ -22,13 +19,9 @@ int open_file_for_read(const char *filename)
 
 /**
  * open_file_for_write - Opens a file for writing (create/truncate).
- * @filename: The name of the file to open.
+ * @filename: The file to open.
  *
- * Description: Opens a file in write-only mode, creating it if needed,
- * and truncating existing content. If it fails, prints an error
- * and returns -1.
- *
- * Return: File descriptor on success, or -1 on failure.
+ * Return: File descriptor on success, -1 on failure.
  */
 int open_file_for_write(const char *filename)
 {
@@ -41,10 +34,8 @@ int open_file_for_write(const char *filename)
 }
 
 /**
- * close_file - Closes a file descriptor and handles errors.
+ * close_file - Closes a file descriptor, prints error & exits if failure.
  * @fd: The file descriptor to close.
- *
- * Description: If closing fails, prints an error and exits with code 100.
  */
 void close_file(int fd)
 {
@@ -56,15 +47,11 @@ void close_file(int fd)
 }
 
 /**
- * copy_content - Copies content from one file to another.
+ * copy_content - Copies content from one file descriptor to another.
  * @file_from: Source file descriptor.
  * @file_to: Destination file descriptor.
  * @file_from_name: Source file name (for error messages).
  * @file_to_name: Destination file name (for error messages).
- *
- * Description: Reads from file_from in chunks of 1024 bytes and writes
- * to file_to. If a read or write error happens, prints the corresponding
- * error and exits with code 98 or 99.
  */
 void copy_content(int file_from, int file_to,
 	const char *file_from_name, const char *file_to_name)
@@ -82,7 +69,7 @@ void copy_content(int file_from, int file_to,
 			exit(99);
 		}
 	}
-
+	/* After the loop, check if read failed (-1) */
 	if (bytes_read == -1)
 	{
 		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n",
@@ -93,16 +80,10 @@ void copy_content(int file_from, int file_to,
 
 /**
  * main - Copies the content of a file to another file.
- * @argc: The number of command-line arguments.
- * @argv: An array of pointers to the argument strings.
+ * @argc: Number of command-line arguments.
+ * @argv: Command-line argument strings.
  *
- * Description: Usage: cp file_from file_to
- *    - Exits with code 97 if the argument count is incorrect.
- *    - Exits with 98 if file_from can't be read.
- *    - Exits with 99 if file_to can't be created or written.
- *    - Exits with 100 if a file descriptor can't be closed.
- *
- * Return: 0 on success.
+ * Return: 0 on success, or an exit code on error.
  */
 int main(int argc, char *argv[])
 {
