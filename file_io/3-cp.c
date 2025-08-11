@@ -1,6 +1,8 @@
 #include "main.h"
 #include <fcntl.h>
 #include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
 
 /**
  * open_file_for_read - Opens a file in read-only mode.
@@ -10,9 +12,8 @@
  */
 int open_file_for_read(const char *filename)
 {
-	int fd;
+	int fd = open(filename, O_RDONLY);
 
-	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
 		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", filename);
@@ -29,9 +30,8 @@ int open_file_for_read(const char *filename)
  */
 int open_file_for_write(const char *filename)
 {
-	int fd;
+	int fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 
-	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 	if (fd == -1)
 	{
 		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", filename);
@@ -66,24 +66,19 @@ void copy_content(int file_from, int file_to,
 	char buffer[1024];
 	ssize_t bytes_read, bytes_written;
 
-	while (1)
+	while ((bytes_read = read(file_from, buffer, sizeof(buffer))) > 0)
 	{
-		bytes_read = read(file_from, buffer, 1024);
-		if (bytes_read == -1)
-		{
-			dprintf(STDERR_FILENO, "Error: Can't read from file %s\n",
-					file_from_name);
-			exit(98);
-		}
-		if (bytes_read == 0)
-			break; /* End of file reached */
 		bytes_written = write(file_to, buffer, bytes_read);
 		if (bytes_written == -1 || bytes_written != bytes_read)
 		{
-			dprintf(STDERR_FILENO, "Error: Can't write to %s\n",
-					file_to_name);
+			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", file_to_name);
 			exit(99);
 		}
+	}
+	if (bytes_read == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", file_from_name);
+		exit(98);
 	}
 }
 
