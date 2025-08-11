@@ -62,14 +62,13 @@ void copy_content(int file_from, int file_to,
 	while ((bytes_read = read(file_from, buffer, 1024)) > 0)
 	{
 		bytes_written = write(file_to, buffer, bytes_read);
-		if (bytes_written == -1)
+		if (bytes_written == -1 || bytes_written != bytes_read)
 		{
 			dprintf(STDERR_FILENO, "Error: Can't write to %s\n",
 				file_to_name);
 			exit(99);
 		}
 	}
-	/* After the loop, check if read failed (-1) */
 	if (bytes_read == -1)
 	{
 		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n",
