@@ -1,4 +1,6 @@
 #include "main.h"
+#include <fcntl.h>
+#include <unistd.h>
 
 /**
  * open_file_for_read - Opens a file in read-only mode.
