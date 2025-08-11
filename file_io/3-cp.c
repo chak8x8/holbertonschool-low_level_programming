@@ -13,7 +13,7 @@ int open_file_for_read(const char *filename)
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n",
-			filename);
+				filename);
 	return (fd);
 }
 
@@ -54,7 +54,7 @@ void close_file(int fd)
  * @file_to_name: Destination file name (for error messages).
  */
 void copy_content(int file_from, int file_to,
-	const char *file_from_name, const char *file_to_name)
+				  const char *file_from_name, const char *file_to_name)
 {
 	char buffer[1024];
 	ssize_t bytes_read, bytes_written;
@@ -62,18 +62,17 @@ void copy_content(int file_from, int file_to,
 	while ((bytes_read = read(file_from, buffer, 1024)) > 0)
 	{
 		bytes_written = write(file_to, buffer, bytes_read);
-		if (bytes_written == -1)
+		if (bytes_written == -1 || bytes_written != bytes_read)
 		{
 			dprintf(STDERR_FILENO, "Error: Can't write to %s\n",
-				file_to_name);
+					file_to_name);
 			exit(99);
 		}
 	}
-	/* After the loop, check if read failed (-1) */
 	if (bytes_read == -1)
 	{
 		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n",
-			file_from_name);
+				file_from_name);
 		exit(98);
 	}
 }
