@@ -59,8 +59,17 @@ void copy_content(int file_from, int file_to,
 	char buffer[1024];
 	ssize_t bytes_read, bytes_written;
 
-	while ((bytes_read = read(file_from, buffer, 1024)) > 0)
+	while (1)
 	{
+		bytes_read = read(file_from, buffer, 1024);
+		if (bytes_read == -1)
+		{
+			dprintf(STDERR_FILENO, "Error: Can't read from file %s\n",
+					file_from_name);
+			exit(98);
+		}
+		if (bytes_read == 0)
+			break; /* End of file reached */
 		bytes_written = write(file_to, buffer, bytes_read);
 		if (bytes_written == -1 || bytes_written != bytes_read)
 		{
@@ -68,12 +77,6 @@ void copy_content(int file_from, int file_to,
 					file_to_name);
 			exit(99);
 		}
-	}
-	if (bytes_read == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n",
-				file_from_name);
-		exit(98);
 	}
 }
 
