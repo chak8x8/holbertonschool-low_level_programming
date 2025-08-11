@@ -4,7 +4,7 @@
  * open_file_for_read - Opens a file in read-only mode.
  * @filename: The file to open.
  *
- * Return: File descriptor on success, -1 on failure.
+ * Return: File descriptor on success, exits with 98 on failure.
  */
 int open_file_for_read(const char *filename)
 {
@@ -12,8 +12,10 @@ int open_file_for_read(const char *filename)
 
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n",
-				filename);
+	{
+		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", filename);
+		exit(98);
+	}
 	return (fd);
 }
 
@@ -21,7 +23,7 @@ int open_file_for_read(const char *filename)
  * open_file_for_write - Opens a file for writing (create/truncate).
  * @filename: The file to open.
  *
- * Return: File descriptor on success, -1 on failure.
+ * Return: File descriptor on success, exits with 99 on failure.
  */
 int open_file_for_write(const char *filename)
 {
@@ -29,7 +31,10 @@ int open_file_for_write(const char *filename)
 
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 	if (fd == -1)
+	{
 		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", filename);
+		exit(99);
+	}
 	return (fd);
 }
 
@@ -98,15 +103,7 @@ int main(int argc, char *argv[])
 	}
 
 	file_from = open_file_for_read(argv[1]);
-	if (file_from == -1)
-		exit(98);
-
 	file_to = open_file_for_write(argv[2]);
-	if (file_to == -1)
-	{
-		close_file(file_from);
-		exit(99);
-	}
 
 	copy_content(file_from, file_to, argv[1], argv[2]);
 
